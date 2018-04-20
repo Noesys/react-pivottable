@@ -107,16 +107,20 @@ function makeRenderer(opts = {}) {
       }
 
       return (
-        <table className="pvtTable">
+        <table className="pvtTable" 
+          style={{
+            fontFamily: pivotData.props.fontFamily, fontSize: pivotData.props.fontSize + "pt",
+            fontStyle: pivotData.props.fontStyle, fontWeight: pivotData.props.fontWeight
+          }}>
           <thead>
             {colAttrs.map(function(c, j) {
               return (
                 <tr key={`colAttr${j}`}>
                   {j === 0 &&
                     rowAttrs.length !== 0 && (
-                      <th colSpan={rowAttrs.length} rowSpan={colAttrs.length} />
+                      <th style={{backgroundColor: pivotData.props.backgroundColor}} colSpan={rowAttrs.length} rowSpan={colAttrs.length} />
                     )}
-                  <th className="pvtAxisLabel">{c}</th>
+                  <th className="pvtAxisLabel" style={{backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt"}}>{c}</th>
                   {colKeys.map(function(colKey, i) {
                     const x = spanSize(colKeys, i, j);
                     if (x === -1) {
@@ -125,6 +129,7 @@ function makeRenderer(opts = {}) {
                     return (
                       <th
                         className="pvtColLabel"
+                        style={{backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt"}}
                         key={`colKey${i}`}
                         colSpan={x}
                         rowSpan={
@@ -141,6 +146,7 @@ function makeRenderer(opts = {}) {
                   {j === 0 && (
                     <th
                       className="pvtTotalLabel"
+                      style={{backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt"}}
                       rowSpan={
                         colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)
                       }
@@ -156,12 +162,13 @@ function makeRenderer(opts = {}) {
               <tr>
                 {rowAttrs.map(function(r, i) {
                   return (
-                    <th className="pvtAxisLabel" key={`rowAttr${i}`}>
+                    <th className="pvtAxisLabel" key={`rowAttr${i}`} style={{backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt"}}>
                       {r}
                     </th>
                   );
                 })}
-                <th className="pvtTotalLabel">
+                <th className="pvtTotalLabel"
+                  style={{ backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt" }}>
                   {colAttrs.length === 0 ? 'Totals' : null}
                 </th>
               </tr>
@@ -171,6 +178,16 @@ function makeRenderer(opts = {}) {
           <tbody>
             {rowKeys.map(function(rowKey, i) {
               const totalAggregator = pivotData.getAggregator(rowKey, []);
+               // To find Index of Measure
+               let getAllMeasures = pivotData.props.vals.filter(d => d != "MeasureVal");
+               let findRow = pivotData.props.rows.filter(d => d === "Measure");
+               let getIndex = 0;
+               if (findRow.length > 0) {
+                 let getElement = getAllMeasures.filter(element => rowKey.includes(element));
+                 if (getElement.length > 0) {
+                   getIndex = (getAllMeasures.indexOf(getElement[0]) < 0) ? 0 : getAllMeasures.indexOf(getElement[0]);
+                 }
+               }
               return (
                 <tr key={`rowKeyRow${i}`}>
                   {rowKey.map(function(txt, j) {
@@ -182,6 +199,7 @@ function makeRenderer(opts = {}) {
                       <th
                         key={`rowKeyLabel${i}-${j}`}
                         className="pvtRowLabel"
+                        style={{backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt"}}
                         rowSpan={x}
                         colSpan={
                           j === rowAttrs.length - 1 && colAttrs.length !== 0
@@ -195,6 +213,22 @@ function makeRenderer(opts = {}) {
                   })}
                   {colKeys.map(function(colKey, j) {
                     const aggregator = pivotData.getAggregator(rowKey, colKey);
+                    // To find Index of Measure
+                    let getAllMeasures = pivotData.props.vals.filter(d => d != "MeasureVal");
+                    let findCol = pivotData.props.cols.filter(d => d === "Measure");
+                    let findRow = pivotData.props.rows.filter(d => d === "Measure");
+                    let getIndex = 0;
+                    if (findCol.length > 0) {
+                      let getElement = getAllMeasures.filter(element => colKey.includes(element));
+                      if (getElement.length > 0) {
+                        getIndex = (getAllMeasures.indexOf(getElement[0]) < 0) ? 0 : getAllMeasures.indexOf(getElement[0]);
+                      }
+                    } else if (findRow.length > 0) {
+                      let getElement = getAllMeasures.filter(element => rowKey.includes(element));
+                      if (getElement.length > 0) {
+                        getIndex = (getAllMeasures.indexOf(getElement[0]) < 0) ? 0 : getAllMeasures.indexOf(getElement[0]);
+                      }
+                    }
                     return (
                       <td
                         className="pvtVal"
@@ -205,7 +239,10 @@ function makeRenderer(opts = {}) {
                           aggregator.value()
                         )}
                       >
-                        {aggregator.format(aggregator.value())}
+                        {(pivotData.props.valueFormatter != null) ?
+                          pivotData.props.valueFormatter[getIndex](aggregator.value()) :
+                          aggregator.format(aggregator.value())
+                        }
                       </td>
                     );
                   })}
@@ -213,7 +250,10 @@ function makeRenderer(opts = {}) {
                     className="pvtTotal"
                     style={colTotalColors(totalAggregator.value())}
                   >
-                    {totalAggregator.format(totalAggregator.value())}
+                    {(pivotData.props.valueFormatter != null && findRow.length > 0) ?
+                      pivotData.props.valueFormatter[getIndex](totalAggregator.value()) :
+                      totalAggregator.format(totalAggregator.value())
+                    }
                   </td>
                 </tr>
               );
@@ -221,6 +261,7 @@ function makeRenderer(opts = {}) {
 
             <tr>
               <th
+                style={{backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt"}}
                 className="pvtTotalLabel"
                 colSpan={rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)}
               >
@@ -229,19 +270,32 @@ function makeRenderer(opts = {}) {
 
               {colKeys.map(function(colKey, i) {
                 const totalAggregator = pivotData.getAggregator([], colKey);
+                // To find Index of Measure
+                let getAllMeasures = pivotData.props.vals.filter(d => d != "MeasureVal");
+                let findCol = pivotData.props.cols.filter(d => d === "Measure");
+                let getIndex = 0;
+                if (findCol.length > 0) {
+                  let getElement = getAllMeasures.filter(element => colKey.includes(element));
+                  if (getElement.length > 0) {
+                    getIndex = (getAllMeasures.indexOf(getElement[0]) < 0) ? 0 : getAllMeasures.indexOf(getElement[0]);
+                  }
+                }
                 return (
                   <td
                     className="pvtTotal"
                     key={`total${i}`}
                     style={rowTotalColors(totalAggregator.value())}
-                  >
-                    {totalAggregator.format(totalAggregator.value())}
+                  > 
+                    {(pivotData.props.valueFormatter != null && findCol.length > 0) ?
+                      pivotData.props.valueFormatter[getIndex](totalAggregator.value()) :
+                      totalAggregator.format(totalAggregator.value())
+                    }
                   </td>
                 );
               })}
 
               <td className="pvtGrandTotal">
-                {grandTotalAggregator.format(grandTotalAggregator.value())}
+                  { grandTotalAggregator.format(grandTotalAggregator.value()) }
               </td>
             </tr>
           </tbody>
