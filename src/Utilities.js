@@ -782,10 +782,12 @@ PivotData.defaultProps = {
   derivedAttributes: {},
   // customized Props
   fontFamily: "Open sans",
-  fontSize: 10,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  backgroundColor: "#f8e71c"
+  fontSize: 8,
+  fontLabelWeight: "bold",
+  fontLabelStyle: "normal",
+  fontDataWeight: "normal",
+  fontDataStyle: "normal",
+  backgroundColor: "#ffffff"
 };
 
 PivotData.propTypes = {
@@ -805,9 +807,11 @@ PivotData.propTypes = {
   colOrder: PropTypes.oneOf(['key_a_to_z', 'value_a_to_z', 'value_z_to_a']),
   fontFamily: PropTypes.string,
   fontSize: PropTypes.number,
-  fontWeight: PropTypes.string,
-  fontStyle: PropTypes.string,
   backgroundColor: PropTypes.string,
+  fontLabelWeight: PropTypes.string,
+  fontLabelStyle: PropTypes.string,
+  fontDataWeight: PropTypes.string,
+  fontDataStyle: PropTypes.string,
   valueFormatter: PropTypes.arrayOf(PropTypes.func),
 };
 
