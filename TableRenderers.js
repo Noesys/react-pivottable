@@ -16,6 +16,10 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _Utilities = require('./Utilities');
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -144,8 +148,7 @@ function makeRenderer() {
           'table',
           { className: 'pvtTable',
             style: {
-              fontFamily: pivotData.props.fontFamily, fontSize: pivotData.props.fontSize + "pt",
-              fontStyle: pivotData.props.fontStyle, fontWeight: pivotData.props.fontWeight
+              fontFamily: pivotData.props.fontFamily, fontSize: pivotData.props.fontSize + "pt"
             } },
           _react2.default.createElement(
             'thead',
@@ -157,7 +160,10 @@ function makeRenderer() {
                 j === 0 && rowAttrs.length !== 0 && _react2.default.createElement('th', { style: { backgroundColor: pivotData.props.backgroundColor }, colSpan: rowAttrs.length, rowSpan: colAttrs.length }),
                 _react2.default.createElement(
                   'th',
-                  { className: 'pvtAxisLabel', style: { backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt" } },
+                  { className: 'pvtAxisLabel', style: {
+                      backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
+                      fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle
+                    } },
                   c
                 ),
                 colKeys.map(function (colKey, i) {
@@ -169,7 +175,10 @@ function makeRenderer() {
                     'th',
                     {
                       className: 'pvtColLabel',
-                      style: { backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt" },
+                      style: {
+                        backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
+                        fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle
+                      },
                       key: 'colKey' + i,
                       colSpan: x,
                       rowSpan: j === colAttrs.length - 1 && rowAttrs.length !== 0 ? 2 : 1
@@ -181,7 +190,10 @@ function makeRenderer() {
                   'th',
                   {
                     className: 'pvtTotalLabel',
-                    style: { backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt" },
+                    style: {
+                      backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
+                      fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle
+                    },
                     rowSpan: colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)
                   },
                   'Totals'
@@ -194,14 +206,20 @@ function makeRenderer() {
               rowAttrs.map(function (r, i) {
                 return _react2.default.createElement(
                   'th',
-                  { className: 'pvtAxisLabel', key: 'rowAttr' + i, style: { backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt" } },
+                  { className: 'pvtAxisLabel', key: 'rowAttr' + i, style: {
+                      backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
+                      fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle
+                    } },
                   r
                 );
               }),
               _react2.default.createElement(
                 'th',
                 { className: 'pvtTotalLabel',
-                  style: { backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt" } },
+                  style: {
+                    backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
+                    fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle
+                  } },
                 colAttrs.length === 0 ? 'Totals' : null
               )
             )
@@ -240,7 +258,10 @@ function makeRenderer() {
                     {
                       key: 'rowKeyLabel' + i + '-' + j,
                       className: 'pvtRowLabel',
-                      style: { backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt" },
+                      style: {
+                        backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
+                        fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle
+                      },
                       rowSpan: x,
                       colSpan: j === rowAttrs.length - 1 && colAttrs.length !== 0 ? 2 : 1
                     },
@@ -280,7 +301,7 @@ function makeRenderer() {
                     {
                       className: 'pvtVal',
                       key: 'pvtVal' + i + '-' + j,
-                      style: valueCellColors(rowKey, colKey, aggregator.value())
+                      style: _lodash2.default.merge(valueCellColors(rowKey, colKey, aggregator.value()), { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle })
                     },
                     pivotData.props.valueFormatter != null ? pivotData.props.valueFormatter[getIndex](aggregator.value()) : aggregator.format(aggregator.value())
                   );
@@ -289,7 +310,7 @@ function makeRenderer() {
                   'td',
                   {
                     className: 'pvtTotal',
-                    style: colTotalColors(totalAggregator.value())
+                    style: _lodash2.default.merge(colTotalColors(totalAggregator.value()), { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle })
                   },
                   pivotData.props.valueFormatter != null && findRow.length > 0 ? pivotData.props.valueFormatter[getIndex](totalAggregator.value()) : totalAggregator.format(totalAggregator.value())
                 )
@@ -301,7 +322,10 @@ function makeRenderer() {
               _react2.default.createElement(
                 'th',
                 {
-                  style: { backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt" },
+                  style: {
+                    backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
+                    fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle
+                  },
                   className: 'pvtTotalLabel',
                   colSpan: rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)
                 },
@@ -330,14 +354,14 @@ function makeRenderer() {
                   {
                     className: 'pvtTotal',
                     key: 'total' + i,
-                    style: rowTotalColors(totalAggregator.value())
+                    style: _lodash2.default.merge(rowTotalColors(totalAggregator.value()), { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle })
                   },
                   pivotData.props.valueFormatter != null && findCol.length > 0 ? pivotData.props.valueFormatter[getIndex](totalAggregator.value()) : totalAggregator.format(totalAggregator.value())
                 );
               }),
               _react2.default.createElement(
                 'td',
-                { className: 'pvtGrandTotal' },
+                { className: 'pvtGrandTotal', style: { fontWeight: pivotData.props.fontDataWeight, fontStyle: pivotData.props.fontDataStyle } },
                 grandTotalAggregator.format(grandTotalAggregator.value())
               )
             )

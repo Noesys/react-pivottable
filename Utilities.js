@@ -1010,10 +1010,12 @@ PivotData.defaultProps = {
   derivedAttributes: {},
   // customized Props
   fontFamily: "Open sans",
-  fontSize: 10,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  backgroundColor: "#f8e71c"
+  fontSize: 8,
+  fontLabelWeight: "bold",
+  fontLabelStyle: "normal",
+  fontDataWeight: "normal",
+  fontDataStyle: "normal",
+  backgroundColor: "#ffffff"
 };
 
 PivotData.propTypes = {
@@ -1029,9 +1031,11 @@ PivotData.propTypes = {
   colOrder: _propTypes2.default.oneOf(['key_a_to_z', 'value_a_to_z', 'value_z_to_a']),
   fontFamily: _propTypes2.default.string,
   fontSize: _propTypes2.default.number,
-  fontWeight: _propTypes2.default.string,
-  fontStyle: _propTypes2.default.string,
   backgroundColor: _propTypes2.default.string,
+  fontLabelWeight: _propTypes2.default.string,
+  fontLabelStyle: _propTypes2.default.string,
+  fontDataWeight: _propTypes2.default.string,
+  fontDataStyle: _propTypes2.default.string,
   valueFormatter: _propTypes2.default.arrayOf(_propTypes2.default.func)
 };
 
