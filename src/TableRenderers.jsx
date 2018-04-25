@@ -62,7 +62,10 @@ function makeRenderer(opts = {}) {
       const rowKeys = pivotData.getRowKeys();
       const colKeys = pivotData.getColKeys();
       const grandTotalAggregator = pivotData.getAggregator([], []);
-
+      
+      let hideRowTotal = (pivotData.props.hideRowTotal) ? "none" : "table-cell";
+      let hideColTotal = (pivotData.props.hideColTotal) ? "none" : "table-cell";
+      
       let valueCellColors = () => { };
       let rowTotalColors = () => { };
       let colTotalColors = () => { };
@@ -154,7 +157,7 @@ function makeRenderer(opts = {}) {
                       className="pvtTotalLabel"
                       style={{
                         backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
-                        fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle
+                        fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle, display: hideRowTotal
                       }}
                       rowSpan={
                         colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)
@@ -261,6 +264,7 @@ function makeRenderer(opts = {}) {
                       </td>
                     );
                   })}
+                  {(pivotData.props.hideRowTotal) ? null :
                   <td
                     className="pvtTotal"
                     style={_.merge(colTotalColors(totalAggregator.value()),
@@ -270,12 +274,13 @@ function makeRenderer(opts = {}) {
                       pivotData.props.valueFormatter[getIndex](totalAggregator.value()) :
                       totalAggregator.format(totalAggregator.value())
                     }
-                  </td>
+                  </td>}
                 </tr>
               );
             })}
 
             <tr>
+              {(pivotData.props.hideColTotal) ? null :
               <th
                 style={{
                   backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
@@ -285,7 +290,7 @@ function makeRenderer(opts = {}) {
                 colSpan={rowAttrs.length + (colAttrs.length === 0 ? 0 : 1)}
               >
                 Totals
-              </th>
+              </th>}
 
               {colKeys.map(function (colKey, i) {
                 const totalAggregator = pivotData.getAggregator([], colKey);
@@ -303,7 +308,8 @@ function makeRenderer(opts = {}) {
                   <td
                     className="pvtTotal"
                     key={`total${i}`}
-                    style={_.merge(rowTotalColors(totalAggregator.value()), {fontWeight: pivotData.props.fontDataWeight}, {fontStyle: pivotData.props.fontDataStyle})}
+                    style={_.merge(rowTotalColors(totalAggregator.value()), {fontWeight: pivotData.props.fontDataWeight}, 
+                    {fontStyle: pivotData.props.fontDataStyle}, {display: hideColTotal})}
                   >
                     {(pivotData.props.valueFormatter != null && findCol.length > 0) ?
                       pivotData.props.valueFormatter[getIndex](totalAggregator.value()) :
@@ -312,10 +318,10 @@ function makeRenderer(opts = {}) {
                   </td>
                 );
               })}
-
+              {(pivotData.props.hideRowTotal || pivotData.props.hideColTotal) ? null :
               <td className="pvtGrandTotal" style={{ fontWeight: pivotData.props.fontDataWeight, fontStyle: pivotData.props.fontDataStyle }}>
                 {grandTotalAggregator.format(grandTotalAggregator.value())}
-              </td>
+              </td> }
             </tr>
           </tbody>
         </table>

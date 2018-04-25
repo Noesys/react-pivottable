@@ -787,7 +787,9 @@ PivotData.defaultProps = {
   fontLabelStyle: "normal",
   fontDataWeight: "normal",
   fontDataStyle: "normal",
-  backgroundColor: "#ffffff"
+  backgroundColor: "#ffffff",
+  hideRowTotal: false,
+  hideColTotal: false
 };
 
 PivotData.propTypes = {
@@ -812,6 +814,8 @@ PivotData.propTypes = {
   fontLabelStyle: PropTypes.string,
   fontDataWeight: PropTypes.string,
   fontDataStyle: PropTypes.string,
+  hideRowTotal: PropTypes.bool,
+  hideColTotal: PropTypes.bool,
   valueFormatter: PropTypes.arrayOf(PropTypes.func),
 };
 
