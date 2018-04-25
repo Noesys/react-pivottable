@@ -94,6 +94,9 @@ function makeRenderer() {
         var colKeys = pivotData.getColKeys();
         var grandTotalAggregator = pivotData.getAggregator([], []);
 
+        var hideRowTotal = pivotData.props.hideRowTotal ? "none" : "table-cell";
+        var hideColTotal = pivotData.props.hideColTotal ? "none" : "table-cell";
+
         var valueCellColors = function valueCellColors() {};
         var rowTotalColors = function rowTotalColors() {};
         var colTotalColors = function colTotalColors() {};
@@ -192,7 +195,7 @@ function makeRenderer() {
                     className: 'pvtTotalLabel',
                     style: {
                       backgroundColor: pivotData.props.backgroundColor, fontSize: pivotData.props.fontSize + "pt",
-                      fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle
+                      fontWeight: pivotData.props.fontLabelWeight, fontStyle: pivotData.props.fontLabelStyle, display: hideRowTotal
                     },
                     rowSpan: colAttrs.length + (rowAttrs.length === 0 ? 0 : 1)
                   },
@@ -306,7 +309,7 @@ function makeRenderer() {
                     pivotData.props.valueFormatter != null ? pivotData.props.valueFormatter[getIndex](aggregator.value()) : aggregator.format(aggregator.value())
                   );
                 }),
-                _react2.default.createElement(
+                pivotData.props.hideRowTotal ? null : _react2.default.createElement(
                   'td',
                   {
                     className: 'pvtTotal',
@@ -319,7 +322,7 @@ function makeRenderer() {
             _react2.default.createElement(
               'tr',
               null,
-              _react2.default.createElement(
+              pivotData.props.hideColTotal ? null : _react2.default.createElement(
                 'th',
                 {
                   style: {
@@ -354,12 +357,12 @@ function makeRenderer() {
                   {
                     className: 'pvtTotal',
                     key: 'total' + i,
-                    style: _lodash2.default.merge(rowTotalColors(totalAggregator.value()), { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle })
+                    style: _lodash2.default.merge(rowTotalColors(totalAggregator.value()), { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle }, { display: hideColTotal })
                   },
                   pivotData.props.valueFormatter != null && findCol.length > 0 ? pivotData.props.valueFormatter[getIndex](totalAggregator.value()) : totalAggregator.format(totalAggregator.value())
                 );
               }),
-              _react2.default.createElement(
+              pivotData.props.hideRowTotal || pivotData.props.hideColTotal ? null : _react2.default.createElement(
                 'td',
                 { className: 'pvtGrandTotal', style: { fontWeight: pivotData.props.fontDataWeight, fontStyle: pivotData.props.fontDataStyle } },
                 grandTotalAggregator.format(grandTotalAggregator.value())
