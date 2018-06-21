@@ -636,12 +636,12 @@ class PivotData {
   }
 
   getColKeys() {
-    this.sortKeys();
+    // this.sortKeys();
     return this.colKeys;
   }
 
   getRowKeys() {
-    this.sortKeys();
+    // this.sortKeys();
     return this.rowKeys;
   }
 
