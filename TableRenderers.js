@@ -236,6 +236,7 @@ function makeRenderer() {
               var getAllMeasures = pivotData.props.vals.filter(function (d) {
                 return d != "MeasureVal";
               });
+              var totalFormattingIndex = getAllMeasures.length;
               var findRow = pivotData.props.rows.filter(function (d) {
                 return d === "Measure";
               });
@@ -277,7 +278,7 @@ function makeRenderer() {
                   var getAllMeasures = pivotData.props.vals.filter(function (d) {
                     return d != "MeasureVal";
                   });
-                  var totalFormattingIndex = getAllMeasures.length;
+                  // let totalFormattingIndex = getAllMeasures.length;
                   var findCol = pivotData.props.cols.filter(function (d) {
                     return d === "Measure";
                   });
