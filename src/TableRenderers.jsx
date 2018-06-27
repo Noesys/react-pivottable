@@ -65,6 +65,8 @@ function makeRenderer(opts = {}) {
       
       let hideRowTotal = (pivotData.props.hideRowTotal) ? "none" : "table-cell";
       let hideColTotal = (pivotData.props.hideColTotal) ? "none" : "table-cell";
+      let getAllMeasures = pivotData.props.vals.filter(d => d != "MeasureVal");
+      let totalFormattingIndex = getAllMeasures.length;
       
       let valueCellColors = () => { };
       let rowTotalColors = () => { };
