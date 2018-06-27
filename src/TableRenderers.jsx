@@ -198,6 +198,7 @@ function makeRenderer(opts = {}) {
               const totalAggregator = pivotData.getAggregator(rowKey, []);
               // To find Index of Measure
               let getAllMeasures = pivotData.props.vals.filter(d => d != "MeasureVal");
+              let totalFormattingIndex = getAllMeasures.length;
               let findRow = pivotData.props.rows.filter(d => d === "Measure");
               let getIndex = 0;
               if (findRow.length > 0) {
@@ -236,7 +237,7 @@ function makeRenderer(opts = {}) {
                     const aggregator = pivotData.getAggregator(rowKey, colKey);
                     // To find Index of Measure
                     let getAllMeasures = pivotData.props.vals.filter(d => d != "MeasureVal");
-                    let totalFormattingIndex = getAllMeasures.length;
+                   // let totalFormattingIndex = getAllMeasures.length;
                     let findCol = pivotData.props.cols.filter(d => d === "Measure");
                     let findRow = pivotData.props.rows.filter(d => d === "Measure");
                     let getIndex = 0;
