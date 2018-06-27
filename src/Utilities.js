@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 /*
  * decaffeinate suggestions:
@@ -690,6 +691,23 @@ class PivotData {
       this.tree[flatRowKey][flatColKey].push(record);
     }
   }
+  
+  ValueFontColor (rowKey, colKey) {
+    if (this.props.columnDimensionColorItems.length === 0) {
+      return "#000000";
+    }
+    let findArrayItem = _.intersection(_.map(this.props.columnDimensionColorItems, c => c.item), colKey );
+    if (findArrayItem.length != 0) {
+      let getColorItem = _.find(this.props.columnDimensionColorItems, cd => cd.item === findArrayItem[0]);
+      if (getColorItem != null) {
+        return getColorItem.color;
+      } else {
+        return "#000000";
+      }  
+    } else {
+      return "#000000";
+    }
+  }
 
   getAggregator(rowKey, colKey) {
     let agg;
@@ -789,7 +807,9 @@ PivotData.defaultProps = {
   fontDataStyle: "normal",
   backgroundColor: "#ffffff",
   hideRowTotal: false,
-  hideColTotal: false
+  hideColTotal: false,
+  totalfontColor: "#000000",
+  columnDimensionColorItems: []
 };
 
 PivotData.propTypes = {
@@ -817,6 +837,8 @@ PivotData.propTypes = {
   hideRowTotal: PropTypes.bool,
   hideColTotal: PropTypes.bool,
   valueFormatter: PropTypes.arrayOf(PropTypes.func),
+  totalfontColor: PropTypes.string,
+  columnDimensionColorItems: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.func])
 };
 
 export {

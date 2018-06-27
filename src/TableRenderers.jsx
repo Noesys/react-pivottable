@@ -236,6 +236,7 @@ function makeRenderer(opts = {}) {
                     const aggregator = pivotData.getAggregator(rowKey, colKey);
                     // To find Index of Measure
                     let getAllMeasures = pivotData.props.vals.filter(d => d != "MeasureVal");
+                    let totalFormattingIndex = getAllMeasures.length;
                     let findCol = pivotData.props.cols.filter(d => d === "Measure");
                     let findRow = pivotData.props.rows.filter(d => d === "Measure");
                     let getIndex = 0;
@@ -255,7 +256,7 @@ function makeRenderer(opts = {}) {
                         className="pvtVal"
                         key={`pvtVal${i}-${j}`}
                         style={_.merge(valueCellColors(rowKey, colKey, aggregator.value()),
-                          { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle })}
+                          { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle }, {color: pivotData.ValueFontColor(rowKey, colKey)})}
                       >
                         {(pivotData.props.valueFormatter != null) ?
                           pivotData.props.valueFormatter[getIndex](aggregator.value()) :
@@ -265,13 +266,14 @@ function makeRenderer(opts = {}) {
                     );
                   })}
                   {(pivotData.props.hideRowTotal) ? null :
+                  // Row Formatting
                   <td
                     className="pvtTotal"
                     style={_.merge(colTotalColors(totalAggregator.value()),
-                      { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle })}
+                      { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle }, {color: pivotData.props.totalfontColor})}
                   >
-                    {(pivotData.props.valueFormatter != null && findRow.length > 0) ?
-                      pivotData.props.valueFormatter[getIndex](totalAggregator.value()) :
+                    {(pivotData.props.valueFormatter != null) ?
+                      pivotData.props.valueFormatter[totalFormattingIndex](totalAggregator.value()) :
                       totalAggregator.format(totalAggregator.value())
                     }
                   </td>}
@@ -296,6 +298,7 @@ function makeRenderer(opts = {}) {
                 const totalAggregator = pivotData.getAggregator([], colKey);
                 // To find Index of Measure
                 let getAllMeasures = pivotData.props.vals.filter(d => d != "MeasureVal");
+                let totalFormattingIndex = getAllMeasures.length;
                 let findCol = pivotData.props.cols.filter(d => d === "Measure");
                 let getIndex = 0;
                 if (findCol.length > 0) {
@@ -304,23 +307,27 @@ function makeRenderer(opts = {}) {
                     getIndex = (getAllMeasures.indexOf(getElement[0]) < 0) ? 0 : getAllMeasures.indexOf(getElement[0]);
                   }
                 }
+                // Column Total Formatting
                 return (
                   <td
                     className="pvtTotal"
                     key={`total${i}`}
                     style={_.merge(rowTotalColors(totalAggregator.value()), {fontWeight: pivotData.props.fontDataWeight}, 
-                    {fontStyle: pivotData.props.fontDataStyle}, {display: hideColTotal})}
+                    {fontStyle: pivotData.props.fontDataStyle}, {display: hideColTotal}, {color: pivotData.props.totalfontColor})}
                   >
-                    {(pivotData.props.valueFormatter != null && findCol.length > 0) ?
-                      pivotData.props.valueFormatter[getIndex](totalAggregator.value()) :
+                    {(pivotData.props.valueFormatter != null) ?
+                      pivotData.props.valueFormatter[totalFormattingIndex + 1](totalAggregator.value()) :
                       totalAggregator.format(totalAggregator.value())
                     }
                   </td>
                 );
               })}
               {(pivotData.props.hideRowTotal || pivotData.props.hideColTotal) ? null :
-              <td className="pvtGrandTotal" style={{ fontWeight: pivotData.props.fontDataWeight, fontStyle: pivotData.props.fontDataStyle }}>
-                {grandTotalAggregator.format(grandTotalAggregator.value())}
+              <td className="pvtGrandTotal" style={{ fontWeight: pivotData.props.fontDataWeight, fontStyle: pivotData.props.fontDataStyle, color: pivotData.props.totalfontColor }}>
+                {(pivotData.props.valueFormatter != null) ?
+                    pivotData.props.valueFormatter[totalFormattingIndex + 2](grandTotalAggregator.value()) :
+                    grandTotalAggregator.format(grandTotalAggregator.value())
+                }
               </td> }
             </tr>
           </tbody>
