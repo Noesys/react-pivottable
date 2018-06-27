@@ -13,6 +13,10 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -751,13 +755,13 @@ var PivotData = function () {
   }, {
     key: 'getColKeys',
     value: function getColKeys() {
-      this.sortKeys();
+      // this.sortKeys();
       return this.colKeys;
     }
   }, {
     key: 'getRowKeys',
     value: function getRowKeys() {
-      this.sortKeys();
+      // this.sortKeys();
       return this.rowKeys;
     }
   }, {
@@ -845,6 +849,28 @@ var PivotData = function () {
           this.tree[flatRowKey][flatColKey] = this.aggregator(this, rowKey, colKey);
         }
         this.tree[flatRowKey][flatColKey].push(record);
+      }
+    }
+  }, {
+    key: 'ValueFontColor',
+    value: function ValueFontColor(rowKey, colKey) {
+      if (this.props.columnDimensionColorItems.length === 0) {
+        return "#000000";
+      }
+      var findArrayItem = _lodash2.default.intersection(_lodash2.default.map(this.props.columnDimensionColorItems, function (c) {
+        return c.item;
+      }), colKey);
+      if (findArrayItem.length != 0) {
+        var getColorItem = _lodash2.default.find(this.props.columnDimensionColorItems, function (cd) {
+          return cd.item === findArrayItem[0];
+        });
+        if (getColorItem != null) {
+          return getColorItem.color;
+        } else {
+          return "#000000";
+        }
+      } else {
+        return "#000000";
       }
     }
   }, {
@@ -1017,7 +1043,9 @@ PivotData.defaultProps = {
   fontDataStyle: "normal",
   backgroundColor: "#ffffff",
   hideRowTotal: false,
-  hideColTotal: false
+  hideColTotal: false,
+  totalfontColor: "#000000",
+  columnDimensionColorItems: []
 };
 
 PivotData.propTypes = {
@@ -1040,7 +1068,9 @@ PivotData.propTypes = {
   fontDataStyle: _propTypes2.default.string,
   hideRowTotal: _propTypes2.default.bool,
   hideColTotal: _propTypes2.default.bool,
-  valueFormatter: _propTypes2.default.arrayOf(_propTypes2.default.func)
+  valueFormatter: _propTypes2.default.arrayOf(_propTypes2.default.func),
+  totalfontColor: _propTypes2.default.string,
+  columnDimensionColorItems: _propTypes2.default.oneOfType([_propTypes2.default.array, _propTypes2.default.object, _propTypes2.default.func])
 };
 
 exports.aggregatorTemplates = aggregatorTemplates;
