@@ -809,7 +809,8 @@ PivotData.defaultProps = {
   hideRowTotal: false,
   hideColTotal: false,
   totalfontColor: "#000000",
-  columnDimensionColorItems: []
+  columnDimensionColorItems: [],
+  surveyPivotTable: false
 };
 
 PivotData.propTypes = {
@@ -838,7 +839,8 @@ PivotData.propTypes = {
   hideColTotal: PropTypes.bool,
   valueFormatter: PropTypes.arrayOf(PropTypes.func),
   totalfontColor: PropTypes.string,
-  columnDimensionColorItems: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.func])
+  columnDimensionColorItems: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.func]),
+  surveyPivotTable: PropTypes.bool
 };
 
 export {
