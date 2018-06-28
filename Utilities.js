@@ -1045,7 +1045,8 @@ PivotData.defaultProps = {
   hideRowTotal: false,
   hideColTotal: false,
   totalfontColor: "#000000",
-  columnDimensionColorItems: []
+  columnDimensionColorItems: [],
+  surveyPivotTable: false
 };
 
 PivotData.propTypes = {
@@ -1070,7 +1071,8 @@ PivotData.propTypes = {
   hideColTotal: _propTypes2.default.bool,
   valueFormatter: _propTypes2.default.arrayOf(_propTypes2.default.func),
   totalfontColor: _propTypes2.default.string,
-  columnDimensionColorItems: _propTypes2.default.oneOfType([_propTypes2.default.array, _propTypes2.default.object, _propTypes2.default.func])
+  columnDimensionColorItems: _propTypes2.default.oneOfType([_propTypes2.default.array, _propTypes2.default.object, _propTypes2.default.func]),
+  surveyPivotTable: _propTypes2.default.bool
 };
 
 exports.aggregatorTemplates = aggregatorTemplates;

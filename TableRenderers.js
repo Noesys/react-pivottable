@@ -323,7 +323,7 @@ function makeRenderer() {
                     className: 'pvtTotal',
                     style: _lodash2.default.merge(colTotalColors(totalAggregator.value()), { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle }, { color: pivotData.props.totalfontColor })
                   },
-                  pivotData.props.valueFormatter != null ? pivotData.props.valueFormatter[totalFormattingIndex](totalAggregator.value()) : totalAggregator.format(totalAggregator.value())
+                  pivotData.props.valueFormatter != null && pivotData.props.surveyPivotTable ? pivotData.props.valueFormatter[totalFormattingIndex](totalAggregator.value()) : pivotData.props.valueFormatter != null ? pivotData.props.valueFormatter[5](totalAggregator.value()) : totalAggregator.format(totalAggregator.value())
                 )
               );
             }),
@@ -369,13 +369,13 @@ function makeRenderer() {
                     key: 'total' + i,
                     style: _lodash2.default.merge(rowTotalColors(totalAggregator.value()), { fontWeight: pivotData.props.fontDataWeight }, { fontStyle: pivotData.props.fontDataStyle }, { display: hideColTotal }, { color: pivotData.props.totalfontColor })
                   },
-                  pivotData.props.valueFormatter != null ? pivotData.props.valueFormatter[totalFormattingIndex + 1](totalAggregator.value()) : totalAggregator.format(totalAggregator.value())
+                  pivotData.props.valueFormatter != null && pivotData.props.surveyPivotTable ? pivotData.props.valueFormatter[totalFormattingIndex + 1](totalAggregator.value()) : pivotData.props.valueFormatter != null ? pivotData.props.valueFormatter[5 + 1](totalAggregator.value()) : totalAggregator.format(totalAggregator.value())
                 );
               }),
               pivotData.props.hideRowTotal || pivotData.props.hideColTotal ? null : _react2.default.createElement(
                 'td',
                 { className: 'pvtGrandTotal', style: { fontWeight: pivotData.props.fontDataWeight, fontStyle: pivotData.props.fontDataStyle, color: pivotData.props.totalfontColor } },
-                pivotData.props.valueFormatter != null ? pivotData.props.valueFormatter[totalFormattingIndex + 2](grandTotalAggregator.value()) : grandTotalAggregator.format(grandTotalAggregator.value())
+                pivotData.props.valueFormatter != null && pivotData.props.surveyPivotTable ? pivotData.props.valueFormatter[totalFormattingIndex + 2](grandTotalAggregator.value()) : pivotData.props.valueFormatter != null ? pivotData.props.valueFormatter[5 + 2](grandTotalAggregator.value()) : grandTotalAggregator.format(grandTotalAggregator.value())
               )
             )
           )
