@@ -96,6 +96,10 @@ function makeRenderer() {
 
         var hideRowTotal = pivotData.props.hideRowTotal ? "none" : "table-cell";
         var hideColTotal = pivotData.props.hideColTotal ? "none" : "table-cell";
+        var getAllMeasures = pivotData.props.vals.filter(function (d) {
+          return d != "MeasureVal";
+        });
+        var totalFormattingIndex = getAllMeasures.length;
 
         var valueCellColors = function valueCellColors() {};
         var rowTotalColors = function rowTotalColors() {};
